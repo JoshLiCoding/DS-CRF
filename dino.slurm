@@ -28,8 +28,8 @@ echo "Running on host: $(hostname)"
 source activate reg_loss
  
 # Task to run
-# python main.py
+python main.py
 
 ### Inference w TTA
 # python utils/evaluate_tta.py /u501/j234li/reg_loss/outputs/checkpoints/10epochs_w=mixed_curbest_dl=5.pt --resize 448
-python utils/evaluate_tta.py /u501/j234li/reg_loss/outputs/checkpoints/10epochs_w=mixed_curbest_dl=5.pt --flip --resize 1792
+# python utils/evaluate_tta.py /u501/j234li/reg_loss/outputs/checkpoints/10epochs_w=mixed_curbest_dl=5.pt --flip --resize 1792

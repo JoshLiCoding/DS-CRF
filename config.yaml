@@ -10,18 +10,18 @@ hydra:
 
 # Model Parameters
 model:
-  num_classes: 21
+  num_classes: 81
   backbone_name: "dinov3_vitl16"
   num_transformer_blocks: 1
   num_conv_blocks: 2
-  out_channels: 21
+  out_channels: 81
   use_bottleneck: false
   use_transpose_conv: false
 
 # Training Parameters
 training:
-  batch_size: 16
-  num_epochs: 10
+  batch_size: 32
+  num_epochs: 4
   learning_rate: 0.001
   weight_decay: 0.0001
   momentum: 0.9
@@ -52,26 +52,26 @@ loss:
 
 # Dataset Parameters
 dataset:
-  dataset_name: 'voc'
+  dataset_name: 'coco'
   root: './datasets'
   resize_size: 448 
 
 # Directory Structure
-directories:
-  output: 'outputs'
+direct\ories:
+  output: 'outputs_coco'
   checkpoints: 'checkpoints'
-  visualizations: 'vis_${training.num_epochs}epochs_w=mixed_curbest_dl=5'
+  visualizations: 'vis_${training.num_epochs}epochs_w=mixed'
 
 # File Paths
 paths:
-  model_checkpoint: 'outputs/checkpoints/10epochs_kl.pt'
-  model: '${directories.output}/${directories.checkpoints}/${training.num_epochs}epochs_w=mixed_curbest_dl=5.pt'
+  model_checkpoint: 'outputs_coco/checkpoints/10epochs_kl.pt'
+  model: '${directories.output}/${directories.checkpoints}/${training.num_epochs}epochs_w=mixed.pt'
   sam_checkpoint: 'sam_checkpoint/sam_vit_b_01ec64.pth'
 
 # Visualization Parameters
 visualization:
-  train_sample_interval: 50
-  val_sample_interval: 50
+  train_sample_interval: 400
+  val_sample_interval: 400
 
 # Weights & Biases Configuration
 wandb:

@@ -1,5 +1,5 @@
 weights:
-  - 0.0   # 0  background
+  - 0.0     # 0  background
   - 1000.0  # 1  aeroplane    (0.8170)
   - 0.0     # 2  bicycle      (0.4726)
   - 700.0   # 3  bird         (0.8794)

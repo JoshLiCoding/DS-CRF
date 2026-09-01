@@ -3,6 +3,7 @@
 datasets/
 old_outputs/
 outputs/
+outputs_coco/
 wandb/
 FastSAM-x.pt
 sam_checkpoint/

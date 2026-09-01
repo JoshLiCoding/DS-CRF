@@ -273,7 +273,7 @@ def main(cfg: DictConfig) -> None:
                     continue
                 iou = intersection_counts[cls] / union_counts[cls]
                 ious.append(iou)
-                print(f"Class {CLASS_NAMES[cls]} mIoU: {iou:.4f}")
+                print(f"Class {CLASS_NAMES[cls]} IoU: {iou:.4f}")
             avg_miou = np.mean(ious)
             validation_mious.append(avg_miou)
             validation_epochs.append(epoch + 1)
