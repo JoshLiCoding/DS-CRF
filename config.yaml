@@ -10,23 +10,23 @@ hydra:
 
 # Model Parameters
 model:
-  num_classes: 81
+  num_classes: 21
   backbone_name: "dinov3_vitl16"
   num_transformer_blocks: 1
   num_conv_blocks: 2
-  out_channels: 81
+  out_channels: 21
   use_bottleneck: false
   use_transpose_conv: false
 
 # Training Parameters
 training:
-  batch_size: 32
-  num_epochs: 4
+  batch_size: 16
+  num_epochs: 10
   learning_rate: 0.001
   weight_decay: 0.0001
   momentum: 0.9
   ignore_index: 255
-  validation_interval: 1
+  validation_interval: 2
   train_only: false
   num_workers: 4
 
@@ -44,34 +44,34 @@ pseudolabel:
 # Loss Parameters
 loss:
   unary_method: 'cce'     # 'cce' (collision cross-entropy), 'kldiv'
-  contour_method: 'sam'    # 'sam', 'fastsam', 'slic', 'gt', 'color_diff'
+  contour_method: 'fastsam'    # 'sam', 'fastsam', 'slic', 'gt', 'color_diff'
   potts_weight: 0.0       # uniform Potts weight
   dilation_size: 5        # max-filter size widening the contours before they become affinities
-  per_class_weights: true # when on, the uniform weight is replaced by the table below
+  per_class_weights: false # when on, the uniform weight is replaced by the table below
   class_weights_file: 'class_weights/${dataset.dataset_name}_new.yaml'
 
 # Dataset Parameters
 dataset:
-  dataset_name: 'coco'
+  dataset_name: 'voc'
   root: './datasets'
   resize_size: 448 
 
 # Directory Structure
 direct\ories:
-  output: 'outputs_coco'
+  output: 'outputs'
   checkpoints: 'checkpoints'
-  visualizations: 'vis_${training.num_epochs}epochs_w=mixed'
+  visualizations: 'vis_${training.num_epochs}epochs_test'
 
 # File Paths
 paths:
-  model_checkpoint: 'outputs_coco/checkpoints/10epochs_kl.pt'
-  model: '${directories.output}/${directories.checkpoints}/${training.num_epochs}epochs_w=mixed.pt'
+  model_checkpoint: 'outputs/checkpoints/none.pt'
+  model: '${directories.output}/${directories.checkpoints}/${training.num_epochs}epochs_test.pt'
   sam_checkpoint: 'sam_checkpoint/sam_vit_b_01ec64.pth'
 
 # Visualization Parameters
 visualization:
-  train_sample_interval: 400
-  val_sample_interval: 400
+  train_sample_interval: 50
+  val_sample_interval: 50
 
 # Weights & Biases Configuration
 wandb:

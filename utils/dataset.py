@@ -92,6 +92,34 @@ class VOCSegmentation(data.Dataset):
         """decode semantic mask to RGB image"""
         return cls.cmap[mask]
 
+class VOCSegmentationTest(data.Dataset):
+    """PASCAL VOC 2012 segmentation test split, expected at root/VOCdevkit_test/VOC2012.
+    Images only: the test masks are held out by the evaluation server."""
+    cmap = cmap()
+
+    def __init__(self, root, devkit='VOCdevkit_test'):
+        voc_root = os.path.join(os.path.expanduser(root), devkit, 'VOC2012')
+        if not os.path.isdir(voc_root):
+            raise RuntimeError(f'Dataset not found at {voc_root}.')
+
+        split_f = os.path.join(voc_root, 'ImageSets', 'Segmentation', 'test.txt')
+        with open(split_f, "r") as f:
+            file_names = [x.strip() for x in f.readlines() if x.strip()]
+
+        self.names = file_names
+        self.images = [os.path.join(voc_root, 'JPEGImages', x + ".jpg") for x in file_names]
+
+    def __getitem__(self, index):
+        return Image.open(self.images[index]).convert('RGB'), self.names[index]
+
+    def __len__(self):
+        return len(self.images)
+
+    @classmethod
+    def decode_target(cls, mask):
+        """decode semantic mask to RGB image"""
+        return cls.cmap[mask]
+
 class COCOSegmentation(data.Dataset):
     """
     COCO 2014 semantic segmentation, using CLIP-ES's split files (train.txt/val.txt,
@@ -232,3 +260,24 @@ class CustomSegmentationValTTA(Dataset):
         transformed_image = self.transform(image)
         target = torch.from_numpy(np.array(target))
         return transformed_image, target
+
+
+class CustomSegmentationTest(Dataset):
+    """Test samples, preprocessed exactly like the val split. Yields (image, name, size):
+    the test masks are held out, so predictions are written out at the original size
+    instead of being scored."""
+
+    def __init__(self, dataset, resize_size):
+        self.dataset = dataset
+        self.transform = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Resize((resize_size, resize_size)),
+            transforms.Normalize(mean=MEAN, std=STD),
+        ])
+
+    def __len__(self):
+        return len(self.dataset)
+
+    def __getitem__(self, idx):
+        image, name = self.dataset[idx]
+        return self.transform(image), name, image.size[::-1]
