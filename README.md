@@ -2,7 +2,10 @@
 
 ## Overview
 
-DS-CRF trains with a Conditional Random Field (CRF)-based loss: the per-pixel **unary** term encourages predictions to be similar to dino.txt pseudo-labels, and the **pairwise** term regularizes predictions using SAM boundaries.
+DS-CRF trains with a Conditional Random Field (CRF)-based loss: the per-pixel **unary** term encourages predictions to be similar to dino.txt pseudo-labels, and the **pairwise** term regularizes predictions 
+using SAM boundaries.
+
+![Architecture](assets/architecture.png)
 
 ## Results
 
