@@ -49,6 +49,28 @@ def CrossEntropyLoss(logits, target_probs, soft_targets=False):
     return per_element.mean()
 
 
+def CrossEntropyHardLoss(logits, target_probs):
+    """Cross-entropy against the pseudo-labels hardened into one-hot by their per-pixel argmax.
+
+    Args:
+        logits: (B, C, H, W) tensor of logits from the model.
+        target_probs: (B, C, H, W) tensor of target probabilities (pseudolabels).
+    """
+    return CrossEntropyLoss(logits, target_probs, soft_targets=False)
+
+
+def CrossEntropySoftLoss(logits, target_probs):
+    """Cross-entropy against the soft pseudo-labels, keeping their full distribution.
+
+    Equals KLDivergenceLoss up to the target's entropy, which is constant in the logits.
+
+    Args:
+        logits: (B, C, H, W) tensor of logits from the model.
+        target_probs: (B, C, H, W) tensor of target probabilities (pseudolabels).
+    """
+    return CrossEntropyLoss(logits, target_probs, soft_targets=True)
+
+
 def KLDivergenceLoss(logits, target_probs, eps=1e-8):
     """
     Zero-avoiding KL divergence loss: KL(target || pred), with gradients w.r.t. logits.
@@ -74,6 +96,8 @@ def get_unary_loss(unary_method):
     losses = {
         'cce': CollisionCrossEntropyLoss,
         'kldiv': KLDivergenceLoss,
+        'ce_hard': CrossEntropyHardLoss,
+        'ce_soft': CrossEntropySoftLoss,
     }
     assert unary_method in losses, \
         f"unknown loss.unary_method '{unary_method}', expected one of {sorted(losses)}"

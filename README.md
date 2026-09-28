@@ -1,21 +1,16 @@
-# SAM-CRF: High-Level Pairwise Regularization for Weakly Supervised Semantic Segmentation
+# CRF Loss is How Networks Should Learn Boundaries in Weakly Supervised Segmentation
 
 ## Overview
 
-SAM-CRF trains with a conditional random field (CRF)-based loss: the per-pixel **unary** term encourages predictions to be similar to dino.txt pseudo-labels, and the **pairwise** term regularizes predictions using SAM boundaries. In terms of the architecture, SAM-CRF adds a lightweight decoder that runs parallel to the dino.txt vision head, both on top of a frozen DINOv3 backbone.
-
-## Method
-
-- **Pairwise term:** Pairwise affinities in the relaxed Potts loss are defined using SAM boundaries. **Dilation** is applied to account for the partial voluming effect in images.
-- **Unary term:** Per-pixel loss uses **collision cross-entropy** (not standard cross-entropy) on soft pseudo-labels from dino.txt.
-- **Decoder:** One transformer block + two convolution blocks are designed on top of a frozen DINO backbone; only the decoder is trained.
+DS-CRF trains with a Conditional Random Field (CRF)-based loss: the per-pixel **unary** term encourages predictions to be similar to dino.txt pseudo-labels, and the **pairwise** term regularizes predictions using SAM boundaries.
 
 ## Results
 
 | Dataset           | mIoU   |
 |-------------------|--------|
-| PASCAL VOC 2012   | 80.6%  |
-| MS COCO 2014      | 56.6%  |
+| PASCAL VOC val   | 81.1%  |
+| PASCAL VOC test   | 81.0%  |
+| MS COCO val      | 56.5%  |
 
 ---
 We use the models DINOv3, dino.txt, and SAM in this work.

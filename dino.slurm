@@ -28,10 +28,16 @@ echo "Running on host: $(hostname)"
 source activate reg_loss
  
 # Task to run
-# python main.py
+python main.py
 
 ### Inference w TTA
 # python utils/evaluate_tta.py /u501/j234li/reg_loss/outputs/checkpoints/10epochs_w=mixed_curbest_dl=5.pt --resize 448
 # python utils/evaluate_tta.py /u501/j234li/reg_loss/outputs/checkpoints/10epochs_w=mixed_curbest_dl=5.pt --flip --resize 1792
+# python utils/evaluate_tta.py outputs_coco/checkpoints/4epochs_w=mixed.pt --dataset coco --resize 448
+# python utils/evaluate_tta.py outputs_coco/checkpoints/4epochs_w=mixed.pt --dataset coco --flip --resize 1792
+
 ### Inference w TTA for Pascal VOC test
-python utils/predict_pascal_test_tta.py outputs/checkpoints/10epochs_w=mixed_curbest_dl=5.pt --flip --resize 1792
+# python utils/predict_pascal_test_tta.py outputs/checkpoints/10epochs_w=mixed_curbest_dl=5.pt --flip --resize 1792
+
+### Visualize pseudolabels
+# python utils/vis_pseudolabels.py

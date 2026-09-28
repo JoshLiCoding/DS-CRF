@@ -4,6 +4,9 @@ datasets/
 old_outputs/
 outputs/
 outputs_coco/
+outputs_ablation_ce/
+outputs_ablation_boundary/
+outputs_viz_pseudolabels/
 wandb/
 FastSAM-x.pt
 sam_checkpoint/
@@ -22,3 +25,6 @@ __pycache__/
 # Environment
 .env
 .env.local
+
+# Misc
+dino.slurm

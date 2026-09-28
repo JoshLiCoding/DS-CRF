@@ -21,12 +21,12 @@ model:
 # Training Parameters
 training:
   batch_size: 16
-  num_epochs: 10
+  num_epochs: 0
   learning_rate: 0.001
   weight_decay: 0.0001
   momentum: 0.9
   ignore_index: 255
-  validation_interval: 2
+  validation_interval: 1
   train_only: false
   num_workers: 4
 
@@ -43,11 +43,11 @@ pseudolabel:
 
 # Loss Parameters
 loss:
-  unary_method: 'cce'     # 'cce' (collision cross-entropy), 'kldiv'
-  contour_method: 'fastsam'    # 'sam', 'fastsam', 'slic', 'gt', 'color_diff'
+  unary_method: 'cce'     # 'cce' (collision cross-entropy), 'kldiv', 'ce_hard' (one-hot CE), 'ce_soft' (soft-target CE)
+  contour_method: 'slic'    # 'sam', 'fastsam', 'slic', 'gt', 'color_diff'
   potts_weight: 0.0       # uniform Potts weight
   dilation_size: 5        # max-filter size widening the contours before they become affinities
-  per_class_weights: false # when on, the uniform weight is replaced by the table below
+  per_class_weights: true # when on, the uniform weight is replaced by the table below
   class_weights_file: 'class_weights/${dataset.dataset_name}_new.yaml'
 
 # Dataset Parameters
@@ -57,21 +57,21 @@ dataset:
   resize_size: 448 
 
 # Directory Structure
-direct\ories:
-  output: 'outputs'
+directories:
+  output: 'outputs_ablation_boundary'
   checkpoints: 'checkpoints'
-  visualizations: 'vis_${training.num_epochs}epochs_test'
+  visualizations: 'vis_${training.num_epochs}epochs_sam_dl=5_VIZ'
 
 # File Paths
 paths:
-  model_checkpoint: 'outputs/checkpoints/none.pt'
-  model: '${directories.output}/${directories.checkpoints}/${training.num_epochs}epochs_test.pt'
+  model_checkpoint: 'outputs/checkpoints/10epochs_w=mixed_curbest_dl=5.pt'
+  model: '${directories.output}/${directories.checkpoints}/${training.num_epochs}epochs_sam_dl=5_VIZ.pt'
   sam_checkpoint: 'sam_checkpoint/sam_vit_b_01ec64.pth'
 
 # Visualization Parameters
 visualization:
   train_sample_interval: 50
-  val_sample_interval: 50
+  val_sample_interval: 20
 
 # Weights & Biases Configuration
 wandb:
