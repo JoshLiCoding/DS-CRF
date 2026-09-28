@@ -1,0 +1,30 @@
+.claude/
+.vscode/
+datasets/
+old_outputs/
+outputs/
+outputs_coco/
+outputs_ablation_ce/
+outputs_ablation_boundary/
+outputs_viz_pseudolabels/
+wandb/
+FastSAM-x.pt
+sam_checkpoint/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+
+# Logs
+*.log
+*.out
+
+# Environment
+.env
+.env.local
+
+# Misc
+dino.slurm
